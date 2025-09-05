@@ -36,7 +36,7 @@ export default function Skeleton({
               variants[variant],
               'h-4',
               index === lines - 1 ? 'w-3/4' : 'w-full',
-              className
+              className || ''
             )}
             style={{ width, height }}
           />
@@ -47,14 +47,14 @@ export default function Skeleton({
 
   return (
     <div
-      className={cn(
-        baseClasses,
-        variants[variant],
-        variant === 'text' && 'h-4',
-        variant === 'rectangular' && 'h-24',
-        variant === 'circular' && 'h-12 w-12',
-        className
-      )}
+          className={cn(
+      baseClasses,
+      variants[variant],
+      variant === 'text' && 'h-4',
+      variant === 'rectangular' && 'h-24',
+      variant === 'circular' && 'h-12 w-12',
+      className || ''
+    )}
       style={{ width, height }}
     />
   )
