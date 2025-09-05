@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { prisma } from '@/lib/prisma'
+import { executeWithRetry } from '@/lib/prisma-edge'
 
 // Mark this route as dynamic
 export const dynamic = 'force-dynamic'
@@ -38,11 +38,13 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    const expenses = await prisma.expense.findMany({
-      where,
-      orderBy: {
-        date: 'desc'
-      }
+    const expenses = await executeWithRetry(async (prisma) => {
+      return await prisma.expense.findMany({
+        where,
+        orderBy: {
+          date: 'desc'
+        }
+      })
     })
 
     return NextResponse.json(expenses)
@@ -73,14 +75,16 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const expense = await prisma.expense.create({
-      data: {
-        amount: parseFloat(amount),
-        category,
-        description: description || '',
-        date: date ? new Date(date) : new Date(),
-        userId: session.user.id
-      }
+    const expense = await executeWithRetry(async (prisma) => {
+      return await prisma.expense.create({
+        data: {
+          amount: parseFloat(amount),
+          category,
+          description: description || '',
+          date: date ? new Date(date) : new Date(),
+          userId: session.user.id
+        }
+      })
     })
 
     return NextResponse.json(expense, { status: 201 })
