@@ -14,13 +14,6 @@ export function createPrismaClient(): PrismaClient {
         url: process.env.DATABASE_URL,
       },
     },
-    // Critical: Configure for serverless environment
-    __internal: {
-      engine: {
-        // Prevent prepared statement reuse that causes conflicts
-        closePromise: undefined,
-      },
-    },
   })
 }
 
