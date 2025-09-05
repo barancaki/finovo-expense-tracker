@@ -50,9 +50,9 @@ export default function Skeleton({
           className={cn(
       baseClasses,
       variants[variant],
-      variant === 'text' && 'h-4',
-      variant === 'rectangular' && 'h-24',
-      variant === 'circular' && 'h-12 w-12',
+      variant === 'text' ? 'h-4' : '',
+      variant === 'rectangular' ? 'h-24' : '',
+      variant === 'circular' ? 'h-12 w-12' : '',
       className || ''
     )}
       style={{ width, height }}
