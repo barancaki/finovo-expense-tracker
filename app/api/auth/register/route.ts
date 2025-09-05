@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
-import { executeWithRetry } from '@/lib/prisma-edge'
+import { executeQuery } from '@/lib/db'
 
 // Mark this route as dynamic
 export const dynamic = 'force-dynamic'
@@ -19,8 +19,8 @@ export async function POST(request: NextRequest) {
     // Hash password first to avoid database calls if validation fails
     const hashedPassword = await bcrypt.hash(password, 12)
 
-    // Use the retry mechanism for database operations
-    const result = await executeWithRetry(async (prisma) => {
+    // Use the database operation wrapper
+    const result = await executeQuery(async (prisma) => {
       return await prisma.$transaction(async (tx) => {
         // Check if user already exists
         const existingUser = await tx.user.findUnique({

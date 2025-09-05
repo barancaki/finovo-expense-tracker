@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { executeWithRetry } from '@/lib/prisma-edge'
+import { executeQuery } from '@/lib/db'
 
 // Mark this route as dynamic
 export const dynamic = 'force-dynamic'
@@ -27,7 +27,7 @@ export async function PUT(
       )
     }
 
-    const expense = await executeWithRetry(async (prisma) => {
+    const expense = await executeQuery(async (prisma) => {
       // Check if expense belongs to user
       const existingExpense = await prisma.expense.findFirst({
         where: {
@@ -81,7 +81,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    await executeWithRetry(async (prisma) => {
+    await executeQuery(async (prisma) => {
       // Check if expense belongs to user
       const existingExpense = await prisma.expense.findFirst({
         where: {

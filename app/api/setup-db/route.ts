@@ -1,10 +1,13 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { executeQuery } from '@/lib/db'
 
 export async function POST() {
   try {
     // This will create all tables based on your schema
-    await prisma.$executeRaw`SELECT 1`
+    await executeQuery(async (prisma) => {
+      await prisma.$executeRaw`SELECT 1`
+      return true
+    })
     
     return NextResponse.json({ 
       message: 'Database setup completed successfully!' 

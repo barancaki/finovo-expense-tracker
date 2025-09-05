@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { executeWithRetry } from '@/lib/prisma-edge'
+import { executeQuery } from '@/lib/db'
 
 // Mark this route as dynamic
 export const dynamic = 'force-dynamic'
@@ -14,7 +14,7 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const expenses = await executeWithRetry(async (prisma) => {
+    const expenses = await executeQuery(async (prisma) => {
       return await prisma.expense.findMany({
         where: {
           userId: session.user.id
