@@ -1,11 +1,15 @@
 'use client'
 
 import { useState } from 'react'
+import toast from 'react-hot-toast'
 import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
 import Modal from '@/components/ui/Modal'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import { ExpenseCardSkeleton } from '@/components/ui/SkeletonLoader'
 import ExpenseForm from './ExpenseForm'
 import { formatCurrency, formatDate } from '@/lib/utils'
+import { useLanguage } from '@/contexts/LanguageContext'
 import type { Expense } from '@prisma/client'
 
 interface ExpenseListProps {
@@ -17,6 +21,8 @@ export default function ExpenseList({ expenses, onUpdate }: ExpenseListProps) {
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+  const { t } = useLanguage()
 
   const handleEdit = (expense: Expense) => {
     setEditingExpense(expense)
@@ -24,25 +30,26 @@ export default function ExpenseList({ expenses, onUpdate }: ExpenseListProps) {
   }
 
   const handleDelete = async (expenseId: string) => {
-    if (!confirm('Are you sure you want to delete this expense?')) {
+    if (!confirm(t('deleteConfirm'))) {
       return
     }
 
-    setIsLoading(true)
+    setDeletingId(expenseId)
     try {
       const response = await fetch(`/api/expenses/${expenseId}`, {
         method: 'DELETE'
       })
 
       if (response.ok) {
+        toast.success(t('deleteSuccess'))
         onUpdate()
       } else {
-        alert('Failed to delete expense')
+        toast.error(t('errorOccurred'))
       }
     } catch (error) {
-      alert('Failed to delete expense')
+      toast.error(t('errorOccurred'))
     } finally {
-      setIsLoading(false)
+      setDeletingId(null)
     }
   }
 
@@ -60,14 +67,15 @@ export default function ExpenseList({ expenses, onUpdate }: ExpenseListProps) {
       })
 
       if (response.ok) {
+        toast.success(t('updateSuccess'))
         setIsEditModalOpen(false)
         setEditingExpense(null)
         onUpdate()
       } else {
-        alert('Failed to update expense')
+        toast.error(t('errorOccurred'))
       }
     } catch (error) {
-      alert('Failed to update expense')
+      toast.error(t('errorOccurred'))
     } finally {
       setIsLoading(false)
     }
@@ -77,9 +85,9 @@ export default function ExpenseList({ expenses, onUpdate }: ExpenseListProps) {
     return (
       <Card>
         <div className="text-center py-8">
-          <p className="text-gray-500">No expenses found.</p>
-          <p className="text-sm text-gray-400 mt-2">
-            Add your first expense to get started!
+          <p className="text-gray-500 dark:text-gray-400">{t('noExpensesFound')}</p>
+          <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">
+            {t('noExpensesDesc')}
           </p>
         </div>
       </Card>
@@ -116,17 +124,21 @@ export default function ExpenseList({ expenses, onUpdate }: ExpenseListProps) {
                   variant="outline"
                   size="sm"
                   onClick={() => handleEdit(expense)}
-                  disabled={isLoading}
+                  disabled={isLoading || deletingId === expense.id}
                 >
-                  Edit
+                  {t('edit')}
                 </Button>
                 <Button
                   variant="danger"
                   size="sm"
                   onClick={() => handleDelete(expense.id)}
-                  disabled={isLoading}
+                  disabled={isLoading || deletingId === expense.id}
                 >
-                  Delete
+                  {deletingId === expense.id ? (
+                    <LoadingSpinner size="sm" />
+                  ) : (
+                    t('delete')
+                  )}
                 </Button>
               </div>
             </div>
