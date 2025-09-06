@@ -17,6 +17,8 @@ export default function Navbar() {
   const navigation = [
     { name: t('dashboard'), href: '/dashboard' },
     { name: t('profile'), href: '/profile' },
+    { name: 'Subscription', href: '/subscription' },
+    ...(session?.user?.isAdmin ? [{ name: 'Admin', href: '/admin' }] : []),
   ]
 
   return (
@@ -24,8 +26,9 @@ export default function Navbar() {
       <div className="container">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <Link href="/" className="text-xl font-bold text-primary-600">
-              Finovo
+            <Link href="/" className="flex items-center space-x-2 text-xl font-bold text-primary-600 dark:text-primary-400">
+              <img src="/logo.svg" alt="Finovo Logo" className="w-8 h-8" />
+              <span>Finovo</span>
             </Link>
             
             {session && (

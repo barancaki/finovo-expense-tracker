@@ -126,7 +126,22 @@ export const translations = {
     // Language
     language: 'Language',
     english: 'English',
-    turkish: 'Türkçe'
+    turkish: 'Türkçe',
+    
+    // New homepage content
+    whyChooseFinovo: 'Why Choose Finovo?',
+    whyChooseDesc: 'Experience the future of personal finance management with our cutting-edge features',
+    secure: 'Secure',
+    secureDesc: 'Bank-level security for your financial data',
+    fast: 'Fast',
+    fastDesc: 'Lightning-fast performance and real-time updates',
+    mobileFirst: 'Mobile-First',
+    mobileFirstDesc: 'Optimized for all devices and screen sizes',
+    global: 'Global',
+    globalDesc: 'Multi-language support for worldwide users',
+    readyToTakeControl: 'Ready to Take Control?',
+    readyDesc: 'Join thousands of users who trust Finovo for their financial management',
+    startFreeJourney: 'Start Your Free Journey Today'
   },
   tr: {
     // Navigation
@@ -255,7 +270,22 @@ export const translations = {
     // Language
     language: 'Dil',
     english: 'English',
-    turkish: 'Türkçe'
+    turkish: 'Türkçe',
+    
+    // New homepage content
+    whyChooseFinovo: 'Neden Finovo\'yu Seçmelisiniz?',
+    whyChooseDesc: 'Kişisel finans yönetiminin geleceğini keskin özelliklerimizle deneyimleyin',
+    secure: 'Güvenli',
+    secureDesc: 'Finansal verileriniz için banka düzeyinde güvenlik',
+    fast: 'Hızlı',
+    fastDesc: 'Şimşek hızında performans ve gerçek zamanlı güncellemeler',
+    mobileFirst: 'Mobil Öncelikli',
+    mobileFirstDesc: 'Tüm cihazlar ve ekran boyutları için optimize edilmiş',
+    global: 'Küresel',
+    globalDesc: 'Dünya çapındaki kullanıcılar için çok dilli destek',
+    readyToTakeControl: 'Kontrolü Elinize Almaya Hazır mısınız?',
+    readyDesc: 'Finansal yönetimleri için Finovo\'ya güvenen binlerce kullanıcıya katılın',
+    startFreeJourney: 'Bugün Ücretsiz Yolculuğunuza Başlayın'
   }
 }
 

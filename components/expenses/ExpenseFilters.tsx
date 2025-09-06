@@ -80,7 +80,7 @@ export default function ExpenseFilters({ onFilter }: ExpenseFiltersProps) {
         </div>
 
         <div className="space-y-2">
-          <p className="text-sm font-medium text-gray-700">Quick Filters:</p>
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Quick Filters:</p>
           <div className="flex flex-wrap gap-2">
             <Button
               variant="outline"

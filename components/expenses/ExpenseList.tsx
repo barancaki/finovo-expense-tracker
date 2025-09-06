@@ -102,19 +102,19 @@ export default function ExpenseList({ expenses, onUpdate }: ExpenseListProps) {
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium text-gray-900">
+                  <h4 className="font-medium text-gray-900 dark:text-gray-100">
                     {formatCurrency(expense.amount)}
                   </h4>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200">
                     {expense.category}
                   </span>
                 </div>
                 {expense.description && (
-                  <p className="text-sm text-gray-600 mb-2">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                     {expense.description}
                   </p>
                 )}
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
                   {formatDate(new Date(expense.date))}
                 </p>
               </div>

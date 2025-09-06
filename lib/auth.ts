@@ -2,6 +2,7 @@ import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { executeQuery } from './db'
 import bcrypt from 'bcryptjs'
+type SubscriptionType = 'FREE_TRIAL' | 'PRO' | 'ULTIMATE'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -42,6 +43,9 @@ export const authOptions: NextAuthOptions = {
             id: user.id,
             email: user.email,
             name: user.name,
+            subscriptionType: (user as any).subscriptionType || 'FREE_TRIAL',
+            subscriptionEnd: (user as any).subscriptionEnd || null,
+            isAdmin: (user as any).isAdmin || false,
           }
         } catch (error) {
           console.error('Auth error:', error)
@@ -60,12 +64,18 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id
+        token.subscriptionType = user.subscriptionType
+        token.subscriptionEnd = user.subscriptionEnd
+        token.isAdmin = user.isAdmin
       }
       return token
     },
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id as string
+        session.user.subscriptionType = token.subscriptionType as SubscriptionType
+        session.user.subscriptionEnd = token.subscriptionEnd as Date | null
+        session.user.isAdmin = token.isAdmin as boolean
       }
       return session
     }
